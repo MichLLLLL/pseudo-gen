@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Générateur de pseudos</title>
+</head>
+<body onload="ecrirePseudos()">
+	<style type="text/css">
+		@font-face {
+			font-family: 'Ableton Sans';
+			src: url(https://padlet-uploads.storage.googleapis.com/601831207/787f4e94b5e86c3adf24f983b73bf6b8/AbletonSans_Light.ttf);
+		}
+
+		body {
+			text-transform: capitalize;
+			margin: 0;
+			padding: 0;
+			font-family: 'Ableton Sans';
+			background: #ad3c3c;
+		}
+
+		::selection {
+			background: #581e1e;
+			color: #EF820d;
+		}
+
+
+		div.popup-section {
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform: translateY(-100%);
+			width: 100vw;
+			height: 100vh;
+			z-index: 6;
+			display: flex;
+			align-items:center;
+			justify-content: center;
+			box-sizing: border-box;
+			transition: all .3s ease-in-out;
+		}
+		div.popup-section.show {
+			transform: translateY(0);
+		}
+		div.popup-section>div {
+			box-sizing: border-box;
+			position: relative;
+			background: #913030;
+			width: 35vw;
+			height: 80vh;
+			border-radius: 5vw;
+			padding: 3vw;
+			transition: all .3s ease-in-out;
+		}
+		div.popup-section.show>div {
+			box-shadow: 0 0 0 1000vw #00000075;
+		}
+		div.popup-section>div>div#croix {
+			background: #00000020;
+			height: 100px;
+			width: 100px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 50px;
+			font-size: 500%;
+			transform: rotate(45deg);
+			user-select: none;
+			cursor: pointer;
+			color: #EF820d;
+			transition: all .1s ease-in-out;
+		}
+
+		div.popup-section>div>div#croix:hover {
+			background: #00000050;
+			transform: rotate(-45deg);
+		}
+		p#historique-p {
+			height: 75%;
+			overflow: auto;
+			scrollbar-width: thin;
+			scrollbar-color: #00000080 transparent;
+		}
+		p#historique-p::-webkit-scrollbar {
+			background: transparent;
+			width: 10px;
+		}
+		p#historique-p::-webkit-scrollbar-thumb {
+			background: #00000080;
+			border-radius: 50px;
+		}
+
+
+		div#rslt {
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			width: 100vw;
+			/* border: 1px solid red; */
+			height: 25vh;
+			/* flex-wrap: wrap; */
+			z-index: 0;
+		}
+		div#page {
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			flex-direction: column;
+			width: 100vw;
+			height: 75vh;
+			background: #ad3c3c;
+			z-index: 5;
+		}
+		button#historique {
+			position: absolute;
+			left: 2vw;
+			bottom: 2vw;
+			cursor: pointer;
+			font-size: 1vw;
+			border: none;
+			outline: none;
+			background: #913030;
+			color: #EF820d;
+			font-family: monospace;
+			padding: 15px;
+			border-radius: 100px;
+			transition: all .2s ease-in-out;
+			box-sizing: border-box;
+			border: 0 solid #ffbf00;
+			user-select: none;
+		}
+
+		button#historique:hover {
+			border: 3px solid #ffbf00;
+			background: #EF820d;
+			color: #ffbf00;
+			left: calc(2vw - 3px);
+			transform: translateY(-10%);
+			box-shadow: 0 0 10px 5px #ef820d86;
+		}
+		div#rslt p {
+			width: 25%;
+			height: 100%;
+			border-left: 3px solid #ffbf00;
+			border-right: 3px solid #ffbf00;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-wrap: wrap;
+			font-size: 3vw;
+			font-weight: bold;
+			background: #EF820d;
+			color: #ffbf00;
+			cursor: pointer;
+			user-select: none;
+			filter: blur(5px);
+			transition: all .5s ease-in-out;
+			box-sizing: border-box;
+			z-index: 0;
+		}
+		div#rslt p:hover {
+			filter: blur(0);
+			background: #ad3c3c;
+			color: #EF820d;
+			transition: all .2s ease-in-out;
+			border-left: 0px solid #ffbf00;
+			border-right: 0px solid #ffbf00;
+			/* box-shadow: 0 0 0 50px #0000001a; */
+			z-index: 1;
+			letter-spacing: 5px;
+		}
+		button#button {
+			letter-spacing: 5px;
+			cursor: pointer;
+			font-size: 4vw;
+			border: none;
+			outline: none;
+			background: #913030;
+			color: #EF820d;
+			font-family: monospace;
+			padding: 50px;
+			transition: all .1s ease-in-out;
+			user-select: none;
+		}
+		button#button:hover {
+			letter-spacing: 10px;
+			background: #EF820d;
+			color: #ffbf00;
+		}
+
+		input[type="checkbox"] {
+			position: relative;
+			appearance: none;
+			background: #000;
+			width: 3vw;
+			height: 25px;
+			border-radius: 3vw;
+			transition: all .4s ease-in-out;
+			outline: none;
+			cursor: pointer;
+		}
+
+		input:checked[type="checkbox"] {
+			appearance: none;
+			background: #EF820d;
+		}
+
+		input:checked[type="checkbox"]:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 1px;
+			transform: scale(0.8) translateX(100%);
+			height: 25px;
+			width: 25px;
+			background-color: #ffbf00;
+			border-radius: 50px;
+			transition: all .4s ease-in-out;
+		}
+		input[type='checkbox']:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 1px;
+			transform: scale(0.8);
+			height: 25px;
+			width: 25px;
+			background-color: #913030;
+			border-radius: 50px;
+			transition: all .4s ease-in-out;
+			cursor: pointer;
+		}
+
+		div#checkbox {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transform: scale(1.2);
+			transform-origin: center bottom;
+		}
+	</style>
+
+<div class="popup-section">
+	<div class="popup-container">
+		<div id="croix" onclick="hidePopup()">+</div>
+		<p id="historique-p"></p>
+	</div>
+</div>
+
+<div id="rslt">
+	<p title="Clic droit pour renverser les lettres, gauche pour les mélanger." oncontextmenu="return false" id="p1" class="pseudo"></p>
+	<p title="Clic droit pour renverser les lettres, gauche pour les mélanger." oncontextmenu="return false" id="p2" class="pseudo"></p>
+	<p title="Clic droit pour renverser les lettres, gauche pour les mélanger." oncontextmenu="return false" id="p3" class="pseudo"></p>
+	<p title="Clic droit pour renverser les lettres, gauche pour les mélanger." oncontextmenu="return false" id="p4" class="pseudo"></p>
+</div>
+<div id="page">
+	<button id="button" title="Génère 4 nouveaux pseudos. (Ctrl + Alt + G)" onclick="ecrirePseudos()">ENCORE !</button>
+	<div id="checkbox" title="Active ou désactive le flou sur les pseudos générés. (Ctrl + Alt + F)">
+		<input type="checkbox" id="checkbox-blur" checked>
+		<label for="checkbox-blur" style="cursor: pointer; user-select: none; font-size: 1.5vw">Flou</label>
+	</div>
+	<button title="Affiche l'historique des pseudos générés, du plus ancien au plus récent. (Ctrl + Alt + H)" id="historique" onclick="showPopup(), ecrireHistorique()">Historique</button>
+</div>
+
+<script type="text/javascript">
+
+ 
+	var vyl = ["a", "e", "i", "o", "u", "y"];
+	var csn = ["b", "c", "d", "f", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "x", "z"];
+	let historique = [];
+
+	function aleatoire(arr) {
+		return arr[Math.floor(Math.random() * arr.length)]
+	}
+
+	function generatePseudo(n) {
+		if (n == 1) {
+			let pseudo1 = aleatoire(csn) + aleatoire(vyl) + aleatoire(vyl) + aleatoire(csn) + aleatoire(vyl) + aleatoire(csn);
+			return pseudo1;
+		} else if (n == 2) {
+			let pseudo2 = aleatoire(vyl) + aleatoire(csn) + aleatoire(vyl) + aleatoire(csn) + aleatoire(vyl) + aleatoire(csn);
+			return pseudo2;
+		} else if (n == 3) {
+			let pseudo3 = aleatoire(vyl) + aleatoire(csn) + aleatoire(vyl) + aleatoire(csn) + aleatoire(vyl) + aleatoire(vyl);
+			return pseudo3;
+		} else if (n == 4) {
+			let pseudo4 = aleatoire(csn) + aleatoire(vyl) + aleatoire(csn) + aleatoire(csn) + aleatoire(vyl) + aleatoire(vyl);
+			return pseudo4;
+		} else {
+			let pseudo1 = aleatoire(csn) + aleatoire(vyl) + aleatoire(vyl) + aleatoire(csn) + aleatoire(vyl) + aleatoire(csn);
+			return pseudo1;
+		}
+	}
+	var kamboo = "kamboo";
+
+	function ecrirePseudos() {
+		let pseudo1 = generatePseudo(1);
+		let pseudo2 = generatePseudo(2);
+		let pseudo3 = generatePseudo(3);
+		let pseudo4 = generatePseudo(4);
+
+		let p1 = document.getElementById("p1");
+		let p2 = document.getElementById("p2");
+		let p3 = document.getElementById("p3");
+		let p4 = document.getElementById("p4");
+
+		p1.innerHTML = pseudo1;
+		p2.innerHTML = pseudo2;
+		p3.innerHTML = pseudo3;
+		p4.innerHTML = pseudo4;
+
+		historique.push(pseudo1, pseudo2, pseudo3, pseudo4);
+		ecrireHistorique();
+	}
+
+	let Hpopup = document.getElementById('historique-p');
+	let popup = document.querySelector('.popup-section');
+	let popupshow = false;
+
+	function showPopup() {
+		popup.classList.add('show');
+		popupshow = true;
+	}
+
+	function hidePopup() {
+		popup.classList.remove('show');
+		popupshow = false;
+	}
+
+	function ecrireHistorique() {
+		Hpopup.innerHTML = historique.join("<br>")
+	}
+
+	function reverse(str) {
+		return str.split("").reverse().join("");
+	}
+
+	function shuffle(str) {
+		return str.split('').sort(function() {
+			return 0.5 - Math.random();
+		}).join('');
+	}
+
+	let checkbox = document.getElementById("checkbox-blur");
+
+	document.addEventListener("keydown", (e) => {
+		if (e.ctrlKey && e.altKey && e.which == 72) {
+			if (!popupshow) {
+				showPopup()
+				ecrireHistorique();
+			} else {
+				hidePopup()
+			}
+		}
+
+		if (e.ctrlKey && e.altKey && e.which == 71) {
+			ecrirePseudos();
+		}
+
+		if (e.ctrlKey && e.altKey && e.which == 70) {
+			checkbox.click();
+		}
+	})
+	
+	let pseudos = Array.from(document.querySelectorAll(".pseudo"));
+	pseudos.forEach((pseudo) => {
+		pseudo.addEventListener('contextmenu', () => {
+			let reversed = reverse(pseudo.innerHTML);
+			pseudo.innerHTML = reversed;
+			return false;
+		})
+		pseudo.addEventListener('click', () => {
+			let shuffled = shuffle(pseudo.innerHTML);
+			pseudo.innerHTML = shuffled;
+		})
+	})
+
+	checkbox.addEventListener("change", () => {
+		let ps = Array.from(document.querySelectorAll(".pseudo"));
+		if (!checkbox.checked) {
+			ps.forEach(p => {
+				p.style.filter = "blur(0)";
+			})
+		} else {
+			ps.forEach(p => {
+				p.style.filter = "blur(5px)";
+				p.addEventListener("mouseover", () => {
+					p.style.filter = "blur(0)";
+				})
+			})
+		}
+		
+	})
+
+</script>
+</body>
+</html>
