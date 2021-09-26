@@ -5,7 +5,9 @@ This generator works by randomly selecting vowels and consonants to put them int
 Of course, some of them suck and no one would want to use them as a pseudonym. But some are pretty good and can be a good nickname!
 
 Maybe you would prefer an example ^^:
+
 Here are the vowels: a, e, i, o, u, y.
+
 And here are the consonants: b, c, d, f, h, j, k, l, m, n, p, q, r, s, t, v, x, z.
 
 I want a nickname that is built like this: vowel, consonant, vowel, vowel, consonnant, vowel.
