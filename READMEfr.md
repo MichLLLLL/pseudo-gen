@@ -5,8 +5,11 @@ Ce générateur fonctionne en sélectionnant de manière aléatoire des voyelles
 Bien sûr, certains d'entre eux sont nuls et personne ne voudrait les utiliser comme pseudonyme. Mais certains sont plutôt bons et peuvent bien marcher !
 
 Peut-être préférez-vous un exemple ^^ :
+
 Voici les voyelles : a, e, i, o, u, y.
+
 Et voici les consonnes : b, c, d, f, h, j, k, l, m, n, p, q, r, s, t, v, x, z.
+
 
 Je veux un surnom qui soit construit comme ça : voyelle, consonne, voyelle, voyelle, consonne, voyelle.
 
