@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>Générateur de pseudos</title>
+	<title>Nickname generator</title>
 </head>
 <body onload="ecrirePseudos()">
 	<style type="text/css">
@@ -249,18 +249,18 @@
 </div>
 
 <div id="rslt">
-	<p title="Clic droit pour renverser les lettres, gauche pour les mélanger." oncontextmenu="return false" id="p1" class="pseudo"></p>
-	<p title="Clic droit pour renverser les lettres, gauche pour les mélanger." oncontextmenu="return false" id="p2" class="pseudo"></p>
-	<p title="Clic droit pour renverser les lettres, gauche pour les mélanger." oncontextmenu="return false" id="p3" class="pseudo"></p>
-	<p title="Clic droit pour renverser les lettres, gauche pour les mélanger." oncontextmenu="return false" id="p4" class="pseudo"></p>
+	<p title="Right click to reverse the letters, left to shuffle." oncontextmenu="return false" id="p1" class="pseudo"></p>
+	<p title="Right click to reverse the letters, left to shuffle." oncontextmenu="return false" id="p2" class="pseudo"></p>
+	<p title="Right click to reverse the letters, left to shuffle." oncontextmenu="return false" id="p3" class="pseudo"></p>
+	<p title="Right click to reverse the letters, left to shuffle." oncontextmenu="return false" id="p4" class="pseudo"></p>
 </div>
 <div id="page">
-	<button id="button" title="Génère 4 nouveaux pseudos. (Ctrl + Alt + G)" onclick="ecrirePseudos()">ENCORE !</button>
-	<div id="checkbox" title="Active ou désactive le flou sur les pseudos générés. (Ctrl + Alt + F)">
+	<button id="button" title="Creates 4 new nicknames. (Ctrl + Alt + G)" onclick="ecrirePseudos()">AGAIN!</button>
+	<div id="checkbox" title="Enables or disables the blur effect on the generated nicknames. (Ctrl + Alt + F)">
 		<input type="checkbox" id="checkbox-blur" checked>
-		<label for="checkbox-blur" style="cursor: pointer; user-select: none; font-size: 1.5vw">Flou</label>
+		<label for="checkbox-blur" style="cursor: pointer; user-select: none; font-size: 1.5vw">Blur</label>
 	</div>
-	<button title="Affiche l'historique des pseudos générés, du plus ancien au plus récent. (Ctrl + Alt + H)" id="historique" onclick="showPopup(), ecrireHistorique()">Historique</button>
+	<button title="Shows all generated nicknames, from oldest to newest. (Ctrl + Alt + H)" id="historique" onclick="showPopup(), ecrireHistorique()">History</button>
 </div>
 
 <script type="text/javascript">
